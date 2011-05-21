@@ -1,0 +1,62 @@
+//============================================================================//
+//
+// THE LUCID GRID | INTERNAL MIXINS
+// plugin by Yifei Zhang [http://yifei.co]
+// 
+//============================================================================//
+
+// Calculate the base grid "unit"
+$grid-inner-width: $grid-width - (2 * ($grid-outer-gutter - $grid-gutter));
+$gu: $grid-inner-width / $grid-columns;
+
+// Grid Container
+// Applies the grid width and centering
+@mixin _grid-container($width: $grid-width, $centered: $grid-centering);
+  @if $centered == true {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  width: $width;
+}
+
+// Grid Rows
+// Centered to create outer gutter appearance
+// Applies clearfix (to contain floats)
+@mixin _grid-row($clearfix) {
+  margin-left: auto;
+  margin-right: auto;
+
+  @if $clearfix == overflow {
+    @include clearfix;
+  } @else {
+    @include pie-clearfix;
+  }
+}
+
+// Styles shared by all grid elements
+// Optionally include gutter
+@mixin _grid-element($gutter) {
+  display: inline;
+  float: left;
+
+  @if $gutter > 0 {
+    margin-left: $grid-gutter;
+    margin-right: $grid-gutter;
+  }
+}
+
+// Individual styles for each grid element
+@mixin _grid-element-style($columns, $offset, $gutter, $adjustment) {
+
+  // Shift element left or right with +/- $offset
+  @if $offset > 0 {
+    margin-left: ($offset * $gu) + $gutter;
+  } @else if $offset < 0 {
+    margin-left: ($offset * $gu) - $gutter;
+  }
+
+  // Adjust element width 
+  width: ($columns * $gu) - $adjustment - ($gutter * 2);
+}
+

@@ -1,0 +1,67 @@
+//============================================================================//
+//
+// THE LUCID GRID | PUBLIC MIXINS
+// plugin by Yifei Zhang [http://yifei.co]
+// 
+//============================================================================//
+
+// Generate @extend hooks
+@mixin grid-hooks {
+  #{$grid-hook-container} { @include _grid-container; }
+  #{$grid-hook-row} { @include _grid-row($grid-clearfix); }
+  #{$grid-hook-column} { @include _grid-element($grid-gutter); }
+  #{$grid-hook-gutterless} { @include _grid-element(0); }
+}
+
+//
+// Grid Mixins
+//
+
+// Container
+@mixin grid {
+  @extend #{$grid-hook-container};
+}
+
+// Row
+@mixin row {
+  @extend #{$grid-hook-row};
+}
+
+// Element (with gutters)
+@mixin col($columns, $offset: 0, $width-adjustment: 0) {
+  @extend #{$grid-hook-column};
+  @include _grid-element-style($columns, $offset, $grid-gutter, $width-adjustment);
+}
+
+// Element (without gutters)
+@mixin col-gutterless($columns, $offset: 0, $width-adjustment: 0) {
+  @extend #{$grid-hook-gutterless};
+  @include _grid-element-style($columns, $offset, 0, $width-adjustment);
+}
+
+//
+// Experimental Media Query Adjustments
+//
+
+@mixin grid-adjustment($columns) {
+  $width: $columns * $gu;
+
+  #{$grid-hook-container} { @include _grid-container($width, false); }
+}
+
+//
+// Generate Non-semantic Classes
+//
+
+@mixin grid-classes($gutterless: false, $prefix: 'g', $gutterless-prefix: 'gl') {
+  @for $i from 1 through $grid-columns {
+    .#{$prefix}#{$i} { @include col($i); }
+  }
+
+  @if $gutterless != false {
+    @for $i from 1 through $grid-columns {
+      .#{$gutterless-prefix}#{$i} { @include col-gutterless($i); }
+    }
+  }
+}
+

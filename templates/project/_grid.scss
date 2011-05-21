@@ -1,0 +1,52 @@
+//============================================================================//
+// 
+// THE LUCID GRID | QUICKSTART
+// plugin by Yifei Zhang [http://yifei.co]
+//
+// @import this into your project or paste into your base/bootstrap file 
+//
+//============================================================================//
+
+//
+// Configuration and Initialization
+//
+// Already have Compass @imported? Go ahead and remove `clearfix`.
+//
+// Configuration $variables should be defined before Lucid is @imported. 
+// View the full list of options and defaults at [http://yifei.co/lucid]
+//
+
+@import "compass/utilities/general/clearfix";
+@import 'lucid';
+
+//
+// @Extend Hooks (Required)
+//
+// Lucid uses SASS's @extend (internally!) in order to produce leaner compiled 
+// stylesheets*. The `grid-hooks` mixin generates four base classes that are 
+// reused by Lucid's other mixins through @extend.
+//
+// * @include misused leads to fat, repetative stylesheets. Lucid knows better.
+//
+
+@include grid-hooks;
+
+//============================================================================//
+//
+// BASIC USAGE
+// For the full docs, visit [http://yifei.co/lucid]
+//
+// @include grid;                   // setup a new grid container
+// @include row;                    // setup a new grid row 
+//
+// @include col(3);                 // grid element that spans 3 columns
+// @include col(3, 2);              // shifted 2 columns to right
+// @include col(3, 2, 20px);        // subtract 20px from `width` to adjust for borders/padding
+// @include col-gutterless(5, 2);   // "gutterless" element, identical usage to `col()`
+//
+// @include grid-classes;           // generate .g* classes to use in markup
+// @include grid-classes(true);     // generate .g* and .gl* (gutterless) classes
+//
+// @include grid-adjustment($n);    // reduce container to $n columns (width)
+//
+//============================================================================//

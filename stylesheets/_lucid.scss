@@ -1,0 +1,32 @@
+//============================================================================//
+//
+// THE LUCID GRID | SETUP
+// plugin by Yifei Zhang [http://yifei.co]
+// 
+//============================================================================//
+
+// Grid configuration 
+$grid-width: 960px !default;
+$grid-columns: 12 !default;
+$grid-gutter: 15px !default;
+$grid-outer-gutter: 30px !default;
+
+// @extend hook class names
+$grid-hook-container: ".lucid-grid" !default;
+$grid-hook-row: ".lucid-row" !default;
+$grid-hook-column: ".lucid-column" !default;
+$grid-hook-gutterless: ".lucid-gutterless" !default;
+
+// Use "pie-clearfix" clearfix or "overflow" clearfix?
+$grid-clearfix: "pie-clearfix" !default;
+
+// Center rows by default?
+$grid-centering: true !default;
+
+//
+// Imports
+//
+
+@import 'lucid/internal';
+@import 'lucid/public';
+
