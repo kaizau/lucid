@@ -11,7 +11,7 @@ $gu: $grid-inner-width / $grid-columns;
 
 // Grid Container
 // Applies the grid width and centering
-@mixin _grid-container($width: $grid-width, $centered: $grid-centering);
+@mixin _grid-container($width: $grid-width, $centered: $grid-centering) {
   @if $centered == true {
     margin-left: auto;
     margin-right: auto;

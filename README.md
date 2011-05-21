@@ -21,8 +21,10 @@ Currently in early development. Comments/suggestions welcome!
 
 THEN
 
-`compass install -r lucid your_existing_project`
+`cd your_existing_project`
+`echo "require 'lucid'" >> config.rb`
+`compass install -r lucid lucid`
 
 OR
 
-`compass create -r lucid your_new_project`
+`compass create -r lucid --using lucid your_new_project`
