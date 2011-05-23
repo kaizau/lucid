@@ -44,9 +44,9 @@
 //
 
 @mixin grid-adjustment($columns) {
-  $width: $columns * $gu;
+  $new-width: ($columns * $gu) - ($grid-outer-padding * 2);
 
-  #{$grid-hook-container} { @include _grid-container($width, false); }
+  #{$grid-hook-container} { @include _grid-container(false, $new-width); }
 }
 
 //

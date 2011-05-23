@@ -15,16 +15,25 @@ Currently in early development. Comments/suggestions welcome!
 * Lucid uses @extend internally to prevent the CSS duplication that can happen with too many @includes.
 * Documenation is coming soon.
 
-###Instructions:
+###Try it out:
 
-`(sudo) gem install compass-lucid-grid`
+```
+(sudo) gem install compass-lucid-grid
+compass help -r lucid lucid
+```
 
 THEN
 
-`cd your_existing_project`
-`echo "require 'lucid'" >> config.rb`
-`compass install -r lucid lucid`
+```
+cd your_existing_project
+echo "require 'lucid'" >> config.rb
+compass install -r lucid lucid`
+```
 
 OR
 
-`compass create -r lucid --using lucid your_new_project`
+```
+compass create -r lucid --using lucid your_new_project
+```
+
+(Note: Creating a project with Lucid does not generate the default Compass stylesheets, only the `_grid.scss` partial.)

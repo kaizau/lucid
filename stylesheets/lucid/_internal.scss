@@ -6,16 +6,20 @@
 //============================================================================//
 
 // Calculate the base grid "unit"
-$grid-inner-width: $grid-width - (2 * ($grid-outer-gutter - $grid-gutter));
+$grid-outer-padding: $grid-outer-gutter - $grid-gutter;
+$grid-inner-width: $grid-width - (2 * $grid-outer-padding);
 $gu: $grid-inner-width / $grid-columns;
 
 // Grid Container
 // Applies the grid width and centering
-@mixin _grid-container($width: $grid-width, $centered: $grid-centering) {
+@mixin _grid-container($centered: $grid-centering, $width: $grid-inner-width) {
   @if $centered == true {
     margin-left: auto;
     margin-right: auto;
   }
+  
+  padding-left: $grid-outer-padding;
+  padding-right: $grid-outer-padding;
 
   width: $width;
 }
