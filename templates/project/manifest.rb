@@ -3,6 +3,9 @@ description "A Compass/SASS grid for people who love semantics."
 discover :all
 
 help %Q{
+
+***
+
 THE LUCID GRID | HELP
 
 SETUP
@@ -20,6 +23,7 @@ BASIC USAGE
   @include col(3, 2);              // shifted 2 columns to right
   @include col(3, 2, 20px);        // subtract 20px from `width` to adjust for borders/padding
   @include col-gutterless(5, 2);   // "gutterless" element, identical usage to `col()`
+  @include col-widthless;          // adds float and gutters only (useful for aligning headers, etc.)
 
   @include grid-classes;           // generate .g* classes to use in markup
   @include grid-classes(true);     // generate .g* and .gl* (gutterless) classes
@@ -34,6 +38,9 @@ To view the source, visit [https://github.com/ezYZ/lucid]
 }
 
 welcome_message %Q{
+
+***
+
 THE LUCID GRID
 plugin by Yifei Zhang
 
@@ -46,4 +53,5 @@ Contribute on GitHub:
 https://github.com/ezYZ/lucid
 
 ***
+
 }

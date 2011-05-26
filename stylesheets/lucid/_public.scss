@@ -39,6 +39,12 @@
   @include _grid-element-style($columns, $offset, 0, $width-adjustment);
 }
 
+// Element (without width, with gutters)
+// Useful for aligning headers, orphans, etc.
+@mixin col-widthless {
+  @extend #{$grid-hook-column};
+}
+
 //
 // Experimental Media Query Adjustments
 //

@@ -1,6 +1,6 @@
 #The Lucid Grid
 
-Currently in early development. Comments/suggestions welcome!
+Currently in early development. The API is still evolving, but feel free to give it a try. Comments/suggestions welcome!
 
 ###Lucid is for developers who:
 
@@ -13,7 +13,9 @@ Currently in early development. Comments/suggestions welcome!
 ###Developer's Notes:
 
 * Lucid uses @extend internally to prevent the CSS duplication that can happen with too many @includes.
-* Documenation is coming soon.
+* Lucid allow you to adjust the width of grid element via a mixin parameter.
+* Full documenation coming soon.
+* MIT License
 
 ###Try it out:
 
