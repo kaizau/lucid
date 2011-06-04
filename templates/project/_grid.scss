@@ -2,52 +2,35 @@
 // 
 // THE LUCID GRID | QUICKSTART
 // plugin by Yifei Zhang [http://yifei.co]
+// MIT License [https://github.com/ezYZ/lucid/blob/master/LICENSE.txt]
 //
 // @import this into your project or paste into your base/bootstrap file 
 //
 //============================================================================//
 
-//
-// Configuration and Initialization
-//
-// Already have Compass @imported? Go ahead and remove `clearfix`.
-//
-// Configuration $variables should be defined before Lucid is @imported. 
-// View the full list of options and defaults at [http://yifei.co/lucid]
-//
 
+// Remove the following line if Compass has already been included
 @import "compass/utilities/general/clearfix";
+
+// Grid dimensions
+$grid-width: 990px;
+$grid-columns: 12;
+
+// The amount of margin to apply to each side of a grid element
+$grid-gutter: 15px;
+
+// The distance between the grid container and the first grid element
+$grid-outer-gutter: 15px;
+
+// Use "pie-clearfix", "overflow", or "none"?
+$grid-clearfix: "pie-clearfix";
+
+// Center rows?
+$grid-centering: true;
+
+// Include Lucid
 @import 'lucid';
 
-//
-// @Extend Hooks (Required)
-//
-// Lucid uses SASS's @extend (internally!) in order to produce leaner compiled 
-// stylesheets*. The `grid-hooks` mixin generates four base classes that are 
-// reused by Lucid's other mixins through @extend.
-//
-// * @include misused leads to fat, repetative stylesheets. Lucid knows better.
-//
+// Output 4 CSS classes that Lucid uses as @extend "hooks"
+@include grid-init;
 
-@include grid-hooks;
-
-//============================================================================//
-//
-// BASIC USAGE
-// For the full docs, visit [http://yifei.co/lucid]
-//
-// @include grid;                   // setup a new grid container
-// @include row;                    // setup a new grid row 
-//
-// @include col(3);                 // grid element that spans 3 columns
-// @include col(3, 2);              // shifted 2 columns to right
-// @include col(3, 2, 20px);        // subtract 20px from `width` to adjust for borders/padding
-// @include col-gutterless(5, 2);   // "gutterless" element, identical usage to `col()`
-// @include col-widthless;          // adds float and gutters only (useful for aligning headers, etc.)
-//
-// @include grid-classes;           // generate .g* classes to use in markup
-// @include grid-classes(true);     // generate .g* and .gl* (gutterless) classes
-//
-// @include grid-adjustment($n);    // reduce container to $n columns (width)
-//
-//============================================================================//

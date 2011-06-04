@@ -2,65 +2,89 @@
 //
 // THE LUCID GRID | INTERNAL MIXINS
 // plugin by Yifei Zhang [http://yifei.co]
+// MIT License [https://github.com/ezYZ/lucid/blob/master/LICENSE.txt]
 // 
 //============================================================================//
 
-// Calculate the base grid "unit"
-$grid-outer-padding: $grid-outer-gutter - $grid-gutter;
-$grid-inner-width: $grid-width - (2 * $grid-outer-padding);
-$gu: $grid-inner-width / $grid-columns;
 
-// Grid Container
-// Applies the grid width and centering
-@mixin _grid-container($centered: $grid-centering, $width: $grid-inner-width) {
-  @if $centered == true {
-    margin-left: auto;
-    margin-right: auto;
-  }
-  
-  padding-left: $grid-outer-padding;
-  padding-right: $grid-outer-padding;
+//
+// Grid Clearfix
+// - sets preferred clearfix method
+// - uses +clearfix or +pie-clearfix
+//
+// $clearfix  (string/bool)  type of clearfix to use ("pie-clearfix", "overflow", false)
+//
 
-  width: $width;
-}
-
-// Grid Rows
-// Centered to create outer gutter appearance
-// Applies clearfix (to contain floats)
-@mixin _grid-row($clearfix) {
-  margin-left: auto;
-  margin-right: auto;
-
-  @if $clearfix == overflow {
+@mixin _grid-clearfix($clearfix) {
+  @if $clearfix == 'overflow' {
     @include clearfix;
-  } @else {
+  }
+  @else {
     @include pie-clearfix;
   }
 }
 
-// Styles shared by all grid elements
-// Optionally include gutter
+
+//
+// Grid Container
+// - applies container width and options
+// - used by the .grid-container @extend hook
+//
+// $clearfix  (string/bool)   type of clearfix to use ("pie-clearfix", "overflow", false)
+// $centered  (bool)          whether to apply centering margins
+// $outer     (px)            calculated width of container padding
+// $width     (px)            calculated width of grid
+//
+
+@mixin _grid-container($clearfix, $centered, $outer, $width) {
+  @if $clearfix != false {
+    @extend #{$grid-hook-clearfix};
+  }
+
+  @if $centered == true {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  @if $outer > 0 {
+    padding-left: $outer;
+    padding-right: $outer;
+  }
+
+  width: $width;
+}
+
+
+//
+// Grid Element
+// - applies shared grid element styles
+// - used in .grid-element and .grid-gutterless @extend hooks
+//
+// $gutter  (px)  whether to include gutters
+//
+
 @mixin _grid-element($gutter) {
   display: inline;
   float: left;
 
   @if $gutter > 0 {
-    margin-left: $grid-gutter;
-    margin-right: $grid-gutter;
+    margin-left: $gutter;
+    margin-right: $gutter;
   }
 }
 
-// Individual styles for each grid element
-@mixin _grid-element-style($columns, $offset, $gutter, $adjustment) {
 
-  // Shift element left or right with +/- $offset
-  @if $offset > 0 {
-    margin-left: ($offset * $gu) + $gutter;
-  } @else if $offset < 0 {
-    margin-left: ($offset * $gu) - $gutter;
-  }
+//
+// Grid Element Style
+// - applies individual styles for each grid element
+//
+// $columns     (int)   number of columns to span
+// $adjustment  (px)    width to shrink the element by (to compensate for borders and padding)
+// $gutter      (px)    width of gutter
+// $col-width   (px)    calculated width of a single grid column
+//
 
-  // Adjust element width 
-  width: ($columns * $gu) - $adjustment - ($gutter * 2);
+@mixin _grid-element-style($columns, $adjustment, $gutter, $col-width) {
+  width: ($columns * $col-width) - $adjustment - ($gutter * 2);
 }
 
