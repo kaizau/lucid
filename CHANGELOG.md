@@ -1,6 +1,6 @@
 #Changelog
 
-##v0.4.0 (6/4/2011)
+###v0.4.0 (6/4/2011)
 
 After weeks of experiments, feedback from coworkers, and endless tweaking, Lucid is finally close to being ready for primetime. This update marks a major overhaul from previous versions:
 
@@ -14,11 +14,11 @@ After weeks of experiments, feedback from coworkers, and endless tweaking, Lucid
 * Internal mixins are no longer dependent on global variables, everything is passed by public mixins
 * Documentation added to README
 
-##v0.3.0
+###v0.3.0
 
 * Added support for outer gutters (previously depended on the margins on individual grid elements)
 * Added experimental `+grid-adjustment` for media query support
 
-##v0.2.0
+###v0.2.0
 
 The dark ages.
