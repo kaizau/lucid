@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   # Release Specific Information
-  s.version = "0.4.0"
-  s.date = "2011-06-04"
+  s.version = "0.4.1"
+  s.date = "2011-06-29"
 
   # Gem Details
   s.name = "compass-lucid-grid"

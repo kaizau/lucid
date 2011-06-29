@@ -1,5 +1,9 @@
 #Changelog
 
+###v0.4.1 (6/29/2011)
+
+* Added ability to include custom-width elements via `+columns(0)`.
+
 ###v0.4.0 (6/4/2011)
 
 After weeks of experiments, feedback from coworkers, and endless tweaking, Lucid is finally close to being ready for primetime. This update marks a major overhaul from previous versions:

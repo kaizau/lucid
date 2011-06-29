@@ -92,6 +92,11 @@ Now we're ready to style:
   .main {
     @include columns(9);  // 9 column element
   }
+
+  .custom {
+    @include columns(0);  // custom width element (includes only float and gutters)
+    width: 123px;
+  }
 }
 
 .another-container {
@@ -125,8 +130,9 @@ Now we're ready to style:
 
 .grid-element,
 .container .sidebar,
-.container .main {
-  // float: left, display: inline, and styles common to all grid elements
+.container .main,
+.container .custom {
+  // styles shared by all grid elements
 }
 
 .container .sidebar {
@@ -134,7 +140,11 @@ Now we're ready to style:
 }
 
 .container .main {
-  // 3 column width
+  // 9 column width
+}
+
+.container .custom {
+  width: 123px;       // custom width
 }
 ```
 

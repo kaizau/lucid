@@ -62,6 +62,7 @@
 //
 // Columns
 // - defines a grid element that spans one or more columns 
+// - if $columns is 0, only the float and margin are applied
 //
 // $columns     (int)   number of columns to span
 // $adjustment  (px)    amount to shrink width (to compensate for borders and padding)
@@ -71,11 +72,15 @@
 @mixin columns($columns, $adjustment: 0, $gutters: true) {
   @if $gutters == false { 
     @extend #{$grid-hook-gutterless};
-    @include _grid-element-style($columns, $adjustment, 0, grid-column-width());
+    @if $columns > 0 {
+      @include _grid-element-style($columns, $adjustment, 0, grid-column-width());
+    }
   }
   @else {
     @extend #{$grid-hook-element};
-    @include _grid-element-style($columns, $adjustment, $grid-gutter, grid-column-width());
+    @if $columns > 0 {
+      @include _grid-element-style($columns, $adjustment, $grid-gutter, grid-column-width());
+    }
   }
 }
 
