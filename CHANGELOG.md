@@ -1,5 +1,11 @@
 #Changelog
 
+###v0.5.0 (6/30/2011)
+
+* Changes to `+columns` and `+offset` parameters for more semantic usage
+* `$adjustment` should be negative value instead of positive
+* `$gutters` accepts 'none' and '0' instead of 'false'
+
 ###v0.4.1 (6/29/2011)
 
 * Added ability to include custom-width elements via `+columns(0)`.

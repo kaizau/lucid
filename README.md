@@ -154,19 +154,24 @@ Instead of applying styles directly to each grid element, whenever possible, Luc
 
 This results in MUCH leaner compiled CSS, as it avoids needless repetition.
 
-###Offset Positioning `+offset( $offset (int) )`
+###Offset Positioning `+offset( $offset (int), $gutters (0 || none) )`
 
 Sometimes, your layout needs a little bit of whitespace. Not a problem with Lucid:
 
 ```scss
 .offset-to-the-right {
   @include columns(6);
-  @include offset(3);   // shifts element to the right 3 columns
+  @include offset(3);         // shifts element to the right 3 columns
 }
 
 .offset-to-the-left {
   @include columns(6);
-  @include offset(-3);  // shifts element to the left 3 columns
+  @include offset(-3);        // shifts element to the left 3 columns
+}
+
+.offset-gutterless {
+  @include columns(6, 0, none);
+  @include offset(3, none);   // include 'none' or '0' when grid element is gutterless
 }
 ```
 
@@ -224,7 +229,7 @@ With other grids, styling an inner `<div>` is often the cleanest method to accom
 }
 ```
 
-With Lucid, this practice is no longer necessary, as you can adjust the width of grid elements individually! Just add your total borders / padding together and pass it as a mixin parameter. Like this:
+With Lucid, this practice is no longer necessary, as you can adjust the width of grid elements individually! Just add your total borders / padding together and pass the negative value as a mixin parameter. Like this:
 
 ```html
 <div class="container">
@@ -236,7 +241,7 @@ With Lucid, this practice is no longer necessary, as you can adjust the width of
 
 ```scss
 .look-ma-no-wrapper {
-  @include columns(3, 40px);  // (1px + 19px) * 2
+  @include columns(3, -40px);  // (1px + 19px) * 2
 
   border: 1px solid #ccc;
   padding: 19px;
@@ -245,13 +250,13 @@ With Lucid, this practice is no longer necessary, as you can adjust the width of
 
 Note, adjusting the width of a grid element means that nesting other grid elements within is no longer guaranteed to add up correctly. You *can* make use of Lucid's `+grid-reinit` to define a new inner grid however!
 
-###Gutterless Elements `+columns( $columns (int), $adjustment (px), $gutters (bool) )`
+###Gutterless Elements `+columns( $columns (int), $adjustment (px), $gutters (0 || none) )`
 
 Sometimes, it's convenient to have grid units without gutters. For example, when you want to nest elements within other elements:
 
 ```scss
 .gutterless {
-  @include columns(9, 0, false);
+  @include columns(9, 0, none);   // $gutters can accept 'none' or '0'
 
   .nested {
     @include column(3);

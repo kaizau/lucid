@@ -60,16 +60,16 @@
 // - applies shared grid element styles
 // - used in .grid-element and .grid-gutterless @extend hooks
 //
-// $gutter  (px)  whether to include gutters
+// $gutters  (px)  whether to include gutters
 //
 
-@mixin _grid-element($gutter) {
+@mixin _grid-element($gutters) {
   display: inline;
   float: left;
 
-  @if $gutter > 0 {
-    margin-left: $gutter;
-    margin-right: $gutter;
+  @if $gutters > 0 {
+    margin-left: $gutters;
+    margin-right: $gutters;
   }
 }
 
@@ -78,13 +78,13 @@
 // Grid Element Style
 // - applies individual styles for each grid element
 //
-// $columns     (int)   number of columns to span
-// $adjustment  (px)    width to shrink the element by (to compensate for borders and padding)
-// $gutter      (px)    width of gutter
-// $col-width   (px)    calculated width of a single grid column
+// $columns       (int)   number of columns to span
+// $adjustment    (px)    adjustment to element width (to compensate for borders and padding)
+// $gutter-width  (px)    whether to include gutters
+// $col-width     (px)    calculated width of a single grid column
 //
 
-@mixin _grid-element-style($columns, $adjustment, $gutter, $col-width) {
-  width: ($columns * $col-width) - $adjustment - ($gutter * 2);
+@mixin _grid-element-style($columns, $adjustment, $gutter-width, $col-width) {
+  width: ($columns * $col-width) + $adjustment - ($gutter-width * 2);
 }
 

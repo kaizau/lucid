@@ -27,6 +27,7 @@
   @return ($grid-width - (2 * ($grid-outer-gutter - $grid-gutter))) / $grid-columns;
 }
 
+
 //
 // GRID BASIC USAGE
 //----------------------------------------------------------------------------//
@@ -64,13 +65,19 @@
 // - defines a grid element that spans one or more columns 
 // - if $columns is 0, only the float and margin are applied
 //
-// $columns     (int)   number of columns to span
-// $adjustment  (px)    amount to shrink width (to compensate for borders and padding)
-// $gutters     (bool)  whether to include gutters
+// $columns     (int)         number of columns to span
+// $adjustment  (px)          adjustment to element width (to compensate for borders and padding)
+// $gutters     (0 || none)   whether to include gutters
 //
 
-@mixin columns($columns, $adjustment: 0, $gutters: true) {
-  @if $gutters == false { 
+@mixin columns($columns, $adjustment: 0, $gutters: null) {
+  @if $gutters == none {
+    @extend #{$grid-hook-gutterless};
+    @if $columns > 0 {
+      @include _grid-element-style($columns, $adjustment, 0, grid-column-width());
+    }
+  }
+  @else if $gutters == 0 {
     @extend #{$grid-hook-gutterless};
     @if $columns > 0 {
       @include _grid-element-style($columns, $adjustment, 0, grid-column-width());
@@ -107,14 +114,20 @@
 // - shifts grid element to the left/right (-/+) by one or more columns
 // - must be defined after +column
 // 
-// $offset    (int)   the number of columns to shift (positive to the right, negative to the left)
-// $gutters   (bool)  whether the element has gutters
+// $offset    (int)         the number of columns to shift (positive to the right, negative to the left)
+// $gutters   (0 || none)   whether the element has gutters
 //
 
-@mixin offset($offset, $gutters: true) {
-  $gutter: if($gutters == false, 0, $grid-gutter);
-
-  margin-left: ($offset * grid-column-width()) + $gutter;
+@mixin offset($offset, $gutters: null) {
+  @if $gutters == none {
+    margin-left: ($offset * grid-column-width());
+  }
+  @else if $gutters == 0 {
+    margin-left: ($offset * grid-column-width());
+  }
+  @else {
+    margin-left: ($offset * grid-column-width()) + $grid-gutter;
+  }
 }
 
 
@@ -153,7 +166,7 @@
 
   @if $gutterless == true {
     @for $i from 1 through $grid-columns {
-      .#{$gutterless-prefix}#{$i} { @include columns($i, 0, false); }
+      .#{$gutterless-prefix}#{$i} { @include columns($i, 0, 0); }
     }
   }
 }
