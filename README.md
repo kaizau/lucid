@@ -1,22 +1,26 @@
 #Lucid: A _smarter_ CSS grid for Compass
 
-###Philosophy and Killer Features
+###Philosophy
 
 CSS grids make web development easier... except when they don't. 
 
 Wrapping `<div>`s, `.alpha` `.omega` madness, and fighting with gutters to get layouts aligned... These are the compromises that developers are forced live with.
 
-But NOT anymore. Lucid makes full use of [SASS](http://sass-lang.com/) and [Compass](http://compass-style.org/) in order to make CSS grids sane again.
+Lucid is an effort to make CSS grids _sane_ again by taking full advantage of [SASS](http://sass-lang.com/) and [Compass](http://compass-style.org/).
 
-Not only does it match other grids in functionality, but it also comes with a handful of unique features:
+###Common Features
 
-* Adjust grid dimensions / number of columns instantly through variables (as with all SASS grids)
-* Add borders and padding _directly to your grid elements_ without using nested `<div>`s
+* Configure grid dimensions / columns instantly through variables
+* Fixed width (`px` based) for finer control
+* Tested in IE6+, Chrome, FF
+
+###Unique Features
+
+* Add borders and padding _directly to your grid elements_ without using nested `<div>`s or ugly overrides
 * Use "gutterless" grid elements for nesting and precise styling
-* Cater to multiple screen widths by reconfiguring Lucid inside media queries
+* Create new rows without wrapping `<div>`s
+* Cater to multiple screen widths by initializing new grid dimensions within media queries
 * Achieve leaner compiled CSS than other SASS grids, due to Lucid's internal [@extend](http://sass-lang.com/docs/yardoc/file.SASS_REFERENCE.html#extend) logic
-
-Go ahead! Judge for yourself:
 
 #Installation
 
@@ -45,7 +49,7 @@ compass create -r lucid --using lucid your_new_project
 
 ###Setup `+grid-init` 
 
-After installation, @import '_grid.scss' or copy its contents into your base file. It should look something like this:
+After installation, `@import '_grid.scss'` or copy its contents into your base file. Defaults (safe to remove) are shown below:
 
 ```scss
 // Remove the following line if Compass has already been included
@@ -81,16 +85,16 @@ Now we're ready to style:
 ```scss
 /* SCSS */
 
-.container {
-  @include container;     // defines grid container
+.blue-box {
+  @include container;     // container element "holds" other grid elements
   background: blue;
 
   .sidebar {
-    @include columns(3);  // 3 column element
+    @include columns(4);  // 4 column element (1/3 row)
   }
 
   .main {
-    @include columns(9);  // 9 column element
+    @include columns(8);  // 8 column element (2/3 row)
   }
 
   .custom {
@@ -99,52 +103,66 @@ Now we're ready to style:
   }
 }
 
-.another-container {
-  @include container;     // yet another container
+.red-box {
+  @include container;     // multiple containers are fine and dandy
   background: red;
 }
 
 
 /* Compiled CSS */
 
+.grid-clearfix,           // clearfix styles
 .grid-container,
-.container,
-.another-container {
-  // container styles
+.blue-box,
+.red-box {
+  *zoom: 1;
 }
 
-.grid-clearfix,
-.grid-container,
-.container,
-.another-container {
-  // clearfix styles
+.grid-clearfix:after,
+.grid-container:after,
+.blue-box:after,
+.red-box:after {
+  content: "";
+  display: table;
+  clear: both;
 }
 
-.container {
+.grid-container,          // shared container styles
+.blue-box,
+.red-box {
+  margin-left: auto;
+  margin-right: auto;
+  width: 990px;
+}
+
+.blue-box {               // unique container styles
   background: blue;
 }
 
-.another-container {
+.red-box {
   background: red;
 }
 
-.grid-element,
-.container .sidebar,
-.container .main,
-.container .custom {
-  // styles shared by all grid elements
+.grid-element,            // shared grid element styles
+.blue-box .sidebar,
+.blue-box .main,
+.blue-box .custom {
+  display: inline;
+  float: left;
+  margin-left: 15px;
+  margin-right: 15px;
 }
 
-.container .sidebar {
-  // 3 column width
+.blue-box .sidebar {      // 4 column width
+  width: 300px; 
 }
 
-.container .main {
-  // 9 column width
+.blue-box .main {         // 8 column width
+  width: 630px;
 }
 
-.container .custom {
-  width: 123px;       // custom width
+.blue-box .custom {       // custom width
+  width: 123px;
 }
 ```
 
@@ -154,59 +172,13 @@ Instead of applying styles directly to each grid element, whenever possible, Luc
 
 This results in MUCH leaner compiled CSS, as it avoids needless repetition.
 
-###Offset Positioning `+offset( $offset (int), $gutters (0 || none) )`
+###Adjusting for Borders and Padding `+columns( $columns (int), $adjustment (px) )`
 
-Sometimes, your layout needs a little bit of whitespace. Not a problem with Lucid:
+Grids typically don't play nice with borders and padding because these properties affect the width of elements, resulting in broken grid layouts. Using a wrapping `<div>` was often the cleanest method to accomodate styling:
 
-```scss
-.offset-to-the-right {
-  @include columns(6);
-  @include offset(3);         // shifts element to the right 3 columns
-}
+With Lucid, this practice is no longer necessary, as you can adjust the width of grid elements individually. Just add your total borders / padding together and pass the negative value as a mixin parameter.
 
-.offset-to-the-left {
-  @include columns(6);
-  @include offset(-3);        // shifts element to the left 3 columns
-}
-
-.offset-gutterless {
-  @include columns(6, 0, none);
-  @include offset(3, none);   // include 'none' or '0' when grid element is gutterless
-}
-```
-
-Unlike other grids that use padding or relative positioning to achieve this, Lucid does it with just `margin-left`. That means the element itself can still safely recieve styling!
-
-###New Rows `+row-break`
-
-Because of the way Lucid was designed, elements that exceed the width of the container will automatically wrap into the next row. If you want to insert a "row break" manually, it's dead simple:
-
-```scss
-.container {
-  @include container;       // 12 column container
-                            // would normally accomodate all 4 children
-  .on-row-1 {
-    @include columns(3);
-  }
-
-  .also-on-row-1 {
-    @include columns(3);
-  }
-
-  .on-row-2 {
-    @include columns(3);    // would have been on row 1
-    @include row-break;     // +row-break puts it on row 2
-  }
-
-  .also-on-row-2 {
-    @include columns(3);    // all following elements affected as well
-  }
-}
-```
-
-###Using with Borders and Padding `+columns( $columns (int), $adjustment (px) )`
-
-With other grids, styling an inner `<div>` is often the cleanest method to accomodate borders and padding, since it preserves the width of the grid element:
+####Old Way
 
 ```html
 <div class="container">
@@ -229,7 +201,7 @@ With other grids, styling an inner `<div>` is often the cleanest method to accom
 }
 ```
 
-With Lucid, this practice is no longer necessary, as you can adjust the width of grid elements individually! Just add your total borders / padding together and pass the negative value as a mixin parameter. Like this:
+###With Lucid
 
 ```html
 <div class="container">
@@ -248,14 +220,16 @@ With Lucid, this practice is no longer necessary, as you can adjust the width of
 }
 ```
 
-Note, adjusting the width of a grid element means that nesting other grid elements within is no longer guaranteed to add up correctly. You *can* make use of Lucid's `+grid-reinit` to define a new inner grid however!
+Note, adjusting the width of a grid element makes it suitable as a parent element for nesting (it can no longer contain the expected width).
 
 ###Gutterless Elements `+columns( $columns (int), $adjustment (px), $gutters (0 || none) )`
 
-Sometimes, it's convenient to have grid units without gutters. For example, when you want to nest elements within other elements:
+Sometimes, it's convenient to have grid units without gutter margins. This is especially useful for nesting elements or defining custom margins.
+
+To turn off gutters, just pass a third parameter:
 
 ```scss
-.gutterless {
+.gutterless {                     // a gutterless parent element
   @include columns(9, 0, none);   // $gutters can accept 'none' or '0'
 
   .nested {
@@ -268,39 +242,95 @@ Sometimes, it's convenient to have grid units without gutters. For example, when
 }
 ```
 
+###Offset Positioning `+offset( $offset (int), $gutters (0 || none) )`
+
+Oftentimes, your layout needs a little bit of whitespace. Not a problem with Lucid. Do remember to specify whether the element you're including to has gutters or not. This is factored into the calculation.
+
+```scss
+.offset-to-the-right {
+  @include columns(6);
+  @include offset(3);         // shifts element to the right 3 columns
+}
+
+.offset-to-the-left {
+  @include columns(6);
+  @include offset(-3);        // shifts element to the left 3 columns
+}
+
+.offset-gutterless {
+  @include columns(6, 0, none);
+  @include offset(3, none);   // include 'none' or '0' when grid element is gutterless
+}
+```
+
+Unlike other grids that use padding or relative positioning to achieve this, Lucid does it with just `margin-left`. That means the element itself can still safely recieve styling!
+
+###New Rows `+row-break`
+
+Elements that exceed the width of the container will automatically wrap into the next row. If you want to insert a "row break" manually, it's dead simple:
+
+```scss
+.container {
+  @include container;       // this 12 column container
+                            // would normally accomodate all 4 children
+  .on-row-1 {
+    @include columns(3);
+  }
+
+  .also-on-row-1 {
+    @include columns(3);
+  }
+
+  .on-row-2 {
+    @include columns(3);    // this would have been on row 1
+    @include row-break;     // +row-break puts it on row 2
+  }
+
+  .also-on-row-2 {
+    @include columns(3);    // all following elements affected as well
+  }
+}
+```
+
 #Advanced
 
 ###Media Queries and Grid Reformatting `+grid-reinit`
 
-Lucid uses pixels, which means that it's a fixed-width grid (percentages aren't precise enough). Fortunately, this doesn't mean that your sites have to be fixed-width:
+Lucid uses pixels, which means that it's a fixed-width grid (percentages aren't precise enough). Fortunately, this doesn't mean that your sites have to be fixed-width.
+
+"Reinitialize" Lucid inside a media query (or any other a wrapping container) to adjust the size of grid elements within the container. Just preface it with a new `$grid-width`.
 
 ```scss
+/* Full width grid */
+
 @include grid-init;
 
-// full width grid
 .container { @include container; }
 .sidebar { @include column(3); }
 .main { @include column(9); }
+
+/* Miniature grid within media query */
 
 @media screen and (max-width: 480px) {
 
   // redeclare one or more variables
   $grid-width: 480px;
+  $grid-columns: 6;
 
-  // outputs a single modified @extend hook
+  // output a single modified @extend hook
   @include grid-reinit;
   
   // same proportions as before, just smaller!
   .container { @include container; }
-  .sidebar { @include column(3); }
-  .main { @include column(9); }
+  .sidebar { @include column(2); }
+  .main { @include column(4); }
 
 }
 ```
 
 ###Modifying @extend Hooks
 
-As mentioned before, Lucid used @extend internally to achieve leaner stylesheets. In order to do this, `+grid-init` outputs four benign classes for @extend to "hook" onto. These classes can be modified (defaults shown):
+Lucid uses `@extend` internally to achieve leaner stylesheets. In order to do this, `+grid-init` outputs four benign selectors for `@extend` to "hook" onto. These selectors can be modified (defaults shown):
 
 ```scss
 $grid-hook-clearfix: ".grid-clearfix";
@@ -326,3 +356,10 @@ For testing purposes, or for those who are unwilling to part with old ways, Luci
 @include grid-classes(true, 'grid-', 'gutterless-');
 ```
 
+#Your thoughts?
+
+Love it? Hate it? Bugs? Suggestions?
+
+[Let me know.](https://github.com/ezYZ/lucid/issues) Thanks for stopping by.
+
+\-Y

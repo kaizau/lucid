@@ -1,5 +1,10 @@
 #Changelog
 
+###v0.5.1 (7/1/2011)
+
+* Tested in IE6+, modern browers
+* Improved _grid.scss template, readme/docs, compass help message
+
 ###v0.5.0 (6/30/2011)
 
 * Changes to `+columns` and `+offset` parameters for more semantic usage

@@ -9,9 +9,9 @@ help %Q{
 THE LUCID GRID
 plugin by Yifei Zhang [http://yifei.co]
 
-A smarter CSS grid for Compass.
+A Compass/SASS grid for developers who love semantics.
 
-For detailed documentation and examples, visit [https://github.com/ezYZ/lucid]
+A Compass/SASS grid that outputs lean, semantic stylesheets. Avoids CSS repetition on SASS compilation and reduces the need for wrapper <div>s.
 
 ***
 
@@ -24,7 +24,7 @@ welcome_message %Q{
 THE LUCID GRID
 plugin by Yifei Zhang [http://yifei.co]
 
-A smarter CSS grid for Compass.
+A Compass/SASS grid that outputs lean, semantic stylesheets. Avoids CSS repetition on SASS compilation and reduces the need for wrapper <div>s.
 
 For detailed documentation and examples, visit [https://github.com/ezYZ/lucid]
 
